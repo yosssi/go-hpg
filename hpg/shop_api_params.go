@@ -2,14 +2,13 @@ package hpg
 
 import (
 	"bytes"
-	"net/url"
 	"strings"
 )
 
 // ShopAPIParams は店名サーチAPIの検索クエリパラメータを表す。
 type ShopAPIParams struct {
 	CommonParams
-	KeyWord []string
+	Keyword []string
 	Tel     string
 }
 
@@ -19,13 +18,13 @@ func (p *ShopAPIParams) Query() string {
 
 	p.CommonParams.WriteStringTo(bf)
 
-	if p.KeyWord != nil {
-		bf.WriteString("&keyword=" + strings.Join(p.KeyWord, ","))
+	if p.Keyword != nil {
+		appendQuery(bf, "keyword", strings.Join(p.Keyword, ","))
 	}
 
 	if p.Tel != "" {
-		bf.WriteString("&tel=" + p.Tel)
+		appendQuery(bf, "tel", p.Tel)
 	}
 
-	return url.QueryEscape(bf.String())
+	return bf.String()
 }

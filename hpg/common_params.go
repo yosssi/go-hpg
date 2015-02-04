@@ -2,6 +2,7 @@ package hpg
 
 import (
 	"bytes"
+	"net/url"
 	"strconv"
 )
 
@@ -13,22 +14,28 @@ type CommonParams struct {
 	Callback string
 }
 
-// WriteStringTo は引数のwへパラメータを出力する。
+// WriteStringTo は引数のBufferへパラメータを出力する。
 func (p *CommonParams) WriteStringTo(bf *bytes.Buffer) {
 
-	bf.WriteString("?key=" + p.Key)
+	bf.WriteString("?key=" + url.QueryEscape(p.Key))
 
 	if p.Start != 0 {
-		bf.WriteString("&start=" + strconv.Itoa(p.Start))
+		appendQuery(bf, "start", strconv.Itoa(p.Start))
 	}
 
 	if p.Count != 0 {
-		bf.WriteString("&count=" + strconv.Itoa(p.Count))
+		appendQuery(bf, "count", strconv.Itoa(p.Count))
 	}
 
 	if p.Callback == "" {
-		bf.WriteString("&format=json")
+		appendQuery(bf, "format", "json")
 	} else {
-		bf.WriteString("&format=jsonp&callback=" + p.Callback)
+		appendQuery(bf, "format", "jsonp")
+		appendQuery(bf, "callback", p.Callback)
 	}
+}
+
+// AppendQuery は引数のBufferにkey-valueのクエリを追加する。
+func appendQuery(bf *bytes.Buffer, key string, value string) {
+	bf.WriteString("&" + key + "=" + url.QueryEscape(value))
 }
