@@ -167,6 +167,38 @@ func TestLargeServiceAreaAPI(t *testing.T) {
 	}
 }
 
+func TestServiceAreaAPI_callAPIErr(t *testing.T) {
+	defer func(baseURLBacked string) {
+		baseURL = baseURLBacked
+	}(baseURL)
+
+	baseURL = ""
+
+	p := &ServiceAreaAPIParams{
+		CommonParams: CommonParams{
+			Key: key,
+		},
+	}
+
+	if _, err := ServiceAreaAPI(V1, p); err == nil {
+		notNilErrorExpected(t)
+		return
+	}
+}
+
+func TestServiceAreaAPI(t *testing.T) {
+	p := &ServiceAreaAPIParams{
+		CommonParams: CommonParams{
+			Key: key,
+		},
+	}
+
+	if _, err := ServiceAreaAPI(V1, p); err != nil {
+		nilErrorExpected(t, err)
+		return
+	}
+}
+
 func notNilErrorExpected(t *testing.T) {
 	t.Error("err => nil, want not nil")
 }

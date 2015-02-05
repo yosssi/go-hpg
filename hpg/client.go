@@ -11,6 +11,7 @@ const (
 	shopAPIPath             = "shop"
 	budgetAPIPath           = "budget"
 	largeServiceAreaAPIPath = "large_service_area"
+	serviceAreaAPIPath      = "service_area"
 )
 
 // APIバージョン
@@ -51,6 +52,17 @@ func LargeServiceAreaAPI(version string, params *LargeServiceAreaAPIParams) (*La
 	r := new(LargeServiceAreaAPIResults)
 
 	if err := callAPI(largeServiceAreaAPIPath, version, params.Query(), r); err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+// ServiceAreaAPI はサービスエリアマスタAPIをコールし、その結果を返却する。
+func ServiceAreaAPI(version string, params *ServiceAreaAPIParams) (*ServiceAreaAPIResults, error) {
+	r := new(ServiceAreaAPIResults)
+
+	if err := callAPI(serviceAreaAPIPath, version, params.Query(), r); err != nil {
 		return nil, err
 	}
 
