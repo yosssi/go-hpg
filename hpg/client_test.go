@@ -231,6 +231,38 @@ func TestLargeAreaAPI(t *testing.T) {
 	}
 }
 
+func TestMiddleAreaAPI_callAPIErr(t *testing.T) {
+	defer func(baseURLBacked string) {
+		baseURL = baseURLBacked
+	}(baseURL)
+
+	baseURL = ""
+
+	p := &MiddleAreaAPIParams{
+		CommonParams: CommonParams{
+			Key: key,
+		},
+	}
+
+	if _, err := MiddleAreaAPI(V1, p); err == nil {
+		notNilErrorExpected(t)
+		return
+	}
+}
+
+func TestMiddleAreaAPI(t *testing.T) {
+	p := &MiddleAreaAPIParams{
+		CommonParams: CommonParams{
+			Key: key,
+		},
+	}
+
+	if _, err := MiddleAreaAPI(V1, p); err != nil {
+		nilErrorExpected(t, err)
+		return
+	}
+}
+
 func notNilErrorExpected(t *testing.T) {
 	t.Error("err => nil, want not nil")
 }

@@ -13,6 +13,7 @@ const (
 	largeServiceAreaAPIPath = "large_service_area"
 	serviceAreaAPIPath      = "service_area"
 	largeAreaAPIPath        = "large_area"
+	middleAreaAPIPath       = "middle_area"
 )
 
 // APIバージョン
@@ -75,6 +76,17 @@ func LargeAreaAPI(version string, params *LargeAreaAPIParams) (*LargeAreaAPIResu
 	r := new(LargeAreaAPIResults)
 
 	if err := callAPI(largeAreaAPIPath, version, params.Query(), r); err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+// MiddleAreaAPI は中エリアマスタAPIをコールし、その結果を返却する。
+func MiddleAreaAPI(version string, params *MiddleAreaAPIParams) (*MiddleAreaAPIResults, error) {
+	r := new(MiddleAreaAPIResults)
+
+	if err := callAPI(middleAreaAPIPath, version, params.Query(), r); err != nil {
 		return nil, err
 	}
 
