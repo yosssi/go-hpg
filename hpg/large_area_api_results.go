@@ -4,6 +4,6 @@ package hpg
 type LargeAreaAPIResults struct {
 	Results struct {
 		CommonResults
-		LargeArea []LargeArea `json:"large_area"`
+		LargeArea []MasterData `json:"large_area"`
 	}
 }

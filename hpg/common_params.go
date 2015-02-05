@@ -1,10 +1,6 @@
 package hpg
 
-import (
-	"bytes"
-	"net/url"
-	"strconv"
-)
+import "net/url"
 
 // CommonParams は全APIに共通する検索クエリパラメータを表す。
 type CommonParams struct {
@@ -14,37 +10,26 @@ type CommonParams struct {
 	Callback string
 }
 
-// Query は、クエリパラメータ文字列を生成し、それを返却する。
-func (p *CommonParams) Query() string {
-	bf := new(bytes.Buffer)
-
-	p.WriteStringTo(bf)
-
-	return bf.String()
-}
-
-// WriteStringTo は引数のBufferへパラメータを出力する。
-func (p *CommonParams) WriteStringTo(bf *bytes.Buffer) {
+// queryBuffer はqueryBufferを生成・初期化してそれを返却する。
+func (p *CommonParams) queryBuffer() *queryBuffer {
+	bf := new(queryBuffer)
 
 	bf.WriteString("?key=" + url.QueryEscape(p.Key))
 
-	if p.Start != 0 {
-		appendQuery(bf, "start", strconv.Itoa(p.Start))
-	}
-
-	if p.Count != 0 {
-		appendQuery(bf, "count", strconv.Itoa(p.Count))
-	}
+	bf.appendInt("start", p.Start)
+	bf.appendInt("count", p.Count)
 
 	if p.Callback == "" {
-		appendQuery(bf, "format", "json")
+		bf.append("format", "json")
 	} else {
-		appendQuery(bf, "format", "jsonp")
-		appendQuery(bf, "callback", p.Callback)
+		bf.append("format", "jsonp")
+		bf.append("callback", p.Callback)
 	}
+
+	return bf
 }
 
-// AppendQuery は引数のBufferにkey-valueのクエリを追加する。
-func appendQuery(bf *bytes.Buffer, key string, value string) {
-	bf.WriteString("&" + key + "=" + url.QueryEscape(value))
+// String は、クエリパラメータ文字列を生成し、それを返却する。
+func (p *CommonParams) String() string {
+	return p.queryBuffer().String()
 }

@@ -4,3 +4,8 @@ package hpg
 type LargeServiceAreaAPIParams struct {
 	CommonParams
 }
+
+// Path は、このパラメータに紐尽くAPIパスを返却する。
+func (p *LargeServiceAreaAPIParams) Path() string {
+	return "large_service_area"
+}

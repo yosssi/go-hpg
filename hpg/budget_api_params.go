@@ -4,3 +4,8 @@ package hpg
 type BudgetAPIParams struct {
 	CommonParams
 }
+
+// Path は、このパラメータに紐尽くAPIパスを返却する。
+func (p *BudgetAPIParams) Path() string {
+	return "budget"
+}

@@ -4,6 +4,6 @@ package hpg
 type BudgetAPIResults struct {
 	Results struct {
 		CommonResults
-		Budget []Budget `json:budget`
+		Budget []MasterData `json:"budget"`
 	}
 }

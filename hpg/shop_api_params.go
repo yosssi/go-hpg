@@ -1,30 +1,23 @@
 package hpg
 
-import (
-	"bytes"
-	"strings"
-)
-
 // ShopAPIParams は店名サーチAPIの検索クエリパラメータを表す。
 type ShopAPIParams struct {
 	CommonParams
 	Keyword []string
-	Tel     string
+	TEL     string
 }
 
-// Query は、クエリパラメータ文字列を生成し、それを返却する。
-func (p *ShopAPIParams) Query() string {
-	bf := new(bytes.Buffer)
+// Path は、このパラメータに紐尽くAPIパスを返却する。
+func (p *ShopAPIParams) Path() string {
+	return "shop"
+}
 
-	p.CommonParams.WriteStringTo(bf)
+// String は、クエリパラメータ文字列を生成し、それを返却する。
+func (p *ShopAPIParams) String() string {
+	bf := p.queryBuffer()
 
-	if p.Keyword != nil {
-		appendQuery(bf, "keyword", strings.Join(p.Keyword, ","))
-	}
-
-	if p.Tel != "" {
-		appendQuery(bf, "tel", p.Tel)
-	}
+	bf.appendStringSlice("keyword", p.Keyword)
+	bf.appendString("tel", p.TEL)
 
 	return bf.String()
 }

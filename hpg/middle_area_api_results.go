@@ -4,6 +4,6 @@ package hpg
 type MiddleAreaAPIResults struct {
 	Results struct {
 		CommonResults
-		MiddleArea []MiddleArea `json:"middle_area"`
+		MiddleArea []MasterData `json:"middle_area"`
 	}
 }

@@ -1,10 +1,5 @@
 package hpg
 
-import (
-	"bytes"
-	"strings"
-)
-
 // LargeAreaAPIParams は大エリアマスタAPIの検索クエリパラメータを表す。
 type LargeAreaAPIParams struct {
 	CommonParams
@@ -12,19 +7,17 @@ type LargeAreaAPIParams struct {
 	Keyword   string
 }
 
-// Query は、クエリパラメータ文字列を生成し、それを返却する。
-func (p *LargeAreaAPIParams) Query() string {
-	bf := new(bytes.Buffer)
+// Path は、このパラメータに紐尽くAPIパスを返却する。
+func (p *LargeAreaAPIParams) Path() string {
+	return "large_area"
+}
 
-	p.CommonParams.WriteStringTo(bf)
+// String は、クエリパラメータ文字列を生成し、それを返却する。
+func (p *LargeAreaAPIParams) String() string {
+	bf := p.queryBuffer()
 
-	if p.LargeArea != nil {
-		appendQuery(bf, "large_area", strings.Join(p.LargeArea, ","))
-	}
-
-	if p.Keyword != "" {
-		appendQuery(bf, "keyword", p.Keyword)
-	}
+	bf.appendStringSlice("large_area", p.LargeArea)
+	bf.appendString("keyword", p.Keyword)
 
 	return bf.String()
 }
