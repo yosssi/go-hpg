@@ -4,6 +4,6 @@ package hpg
 type ShopAPIResults struct {
 	Results struct {
 		CommonResults
-		Shop []Shop
+		Shop []Shop `json:shop`
 	}
 }

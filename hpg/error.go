@@ -2,6 +2,6 @@ package hpg
 
 // Error はエラーデータを表す。
 type Error struct {
-	Message string
-	Code    int
+	Message string `json:"message"`
+	Code    int    `json:"code"`
 }
