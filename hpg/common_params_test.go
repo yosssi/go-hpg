@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+func TestCommonParams_Query(t *testing.T) {
+	p := &CommonParams{}
+
+	want := "?key=&format=json"
+
+	if s := p.Query(); s != want {
+		t.Errorf("s => %q, want %q", s, want)
+	}
+}
+
 func TestCommonParams_WriteStringTo(t *testing.T) {
 	testCases := []struct {
 		in  *CommonParams

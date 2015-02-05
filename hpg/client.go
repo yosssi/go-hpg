@@ -8,8 +8,9 @@ import (
 )
 
 const (
-	shopAPIPath   = "shop"
-	budgetAPIPath = "budget"
+	shopAPIPath             = "shop"
+	budgetAPIPath           = "budget"
+	largeServiceAreaAPIPath = "large_service_area"
 )
 
 // APIバージョン
@@ -39,6 +40,17 @@ func BudgetAPI(version string, params *BudgetAPIParams) (*BudgetAPIResults, erro
 	r := new(BudgetAPIResults)
 
 	if err := callAPI(budgetAPIPath, version, params.Query(), r); err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+// LargeServiceAreaAPI は大サービスエリアマスタAPIをコールし、その結果を返却する。
+func LargeServiceAreaAPI(version string, params *LargeServiceAreaAPIParams) (*LargeServiceAreaAPIResults, error) {
+	r := new(LargeServiceAreaAPIResults)
+
+	if err := callAPI(largeServiceAreaAPIPath, version, params.Query(), r); err != nil {
 		return nil, err
 	}
 

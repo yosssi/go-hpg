@@ -135,6 +135,38 @@ func TestBudgetAPI(t *testing.T) {
 	}
 }
 
+func TestLargeServiceAreaAPI_callAPIErr(t *testing.T) {
+	defer func(baseURLBacked string) {
+		baseURL = baseURLBacked
+	}(baseURL)
+
+	baseURL = ""
+
+	p := &LargeServiceAreaAPIParams{
+		CommonParams: CommonParams{
+			Key: key,
+		},
+	}
+
+	if _, err := LargeServiceAreaAPI(V1, p); err == nil {
+		notNilErrorExpected(t)
+		return
+	}
+}
+
+func TestLargeServiceAreaAPI(t *testing.T) {
+	p := &LargeServiceAreaAPIParams{
+		CommonParams: CommonParams{
+			Key: key,
+		},
+	}
+
+	if _, err := LargeServiceAreaAPI(V1, p); err != nil {
+		nilErrorExpected(t, err)
+		return
+	}
+}
+
 func notNilErrorExpected(t *testing.T) {
 	t.Error("err => nil, want not nil")
 }

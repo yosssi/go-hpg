@@ -14,6 +14,15 @@ type CommonParams struct {
 	Callback string
 }
 
+// Query は、クエリパラメータ文字列を生成し、それを返却する。
+func (p *CommonParams) Query() string {
+	bf := new(bytes.Buffer)
+
+	p.WriteStringTo(bf)
+
+	return bf.String()
+}
+
 // WriteStringTo は引数のBufferへパラメータを出力する。
 func (p *CommonParams) WriteStringTo(bf *bytes.Buffer) {
 
