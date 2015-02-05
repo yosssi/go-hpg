@@ -12,6 +12,7 @@ const (
 	budgetAPIPath           = "budget"
 	largeServiceAreaAPIPath = "large_service_area"
 	serviceAreaAPIPath      = "service_area"
+	largeAreaAPIPath        = "large_area"
 )
 
 // APIバージョン
@@ -63,6 +64,17 @@ func ServiceAreaAPI(version string, params *ServiceAreaAPIParams) (*ServiceAreaA
 	r := new(ServiceAreaAPIResults)
 
 	if err := callAPI(serviceAreaAPIPath, version, params.Query(), r); err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+// LargeAreaAPI は大エリアマスタAPIをコールし、その結果を返却する。
+func LargeAreaAPI(version string, params *LargeAreaAPIParams) (*LargeAreaAPIResults, error) {
+	r := new(LargeAreaAPIResults)
+
+	if err := callAPI(largeAreaAPIPath, version, params.Query(), r); err != nil {
 		return nil, err
 	}
 
