@@ -103,6 +103,38 @@ func TestShopAPI(t *testing.T) {
 	}
 }
 
+func TestBudgetAPI_callAPIErr(t *testing.T) {
+	defer func(baseURLBacked string) {
+		baseURL = baseURLBacked
+	}(baseURL)
+
+	baseURL = ""
+
+	p := &BudgetAPIParams{
+		CommonParams: CommonParams{
+			Key: key,
+		},
+	}
+
+	if _, err := BudgetAPI(V1, p); err == nil {
+		notNilErrorExpected(t)
+		return
+	}
+}
+
+func TestBudgetAPI(t *testing.T) {
+	p := &BudgetAPIParams{
+		CommonParams: CommonParams{
+			Key: key,
+		},
+	}
+
+	if _, err := BudgetAPI(V1, p); err != nil {
+		nilErrorExpected(t, err)
+		return
+	}
+}
+
 func notNilErrorExpected(t *testing.T) {
 	t.Error("err => nil, want not nil")
 }
