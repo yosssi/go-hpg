@@ -2,10 +2,10 @@ package hpg
 
 import "testing"
 
-func TestCreditCardAPIParams_Path(t *testing.T) {
-	p := new(CreditCardAPIParams)
+func TestFoodCategoryAPIParams_Path(t *testing.T) {
+	p := new(FoodCategoryAPIParams)
 
-	want := "credit_card"
+	want := "food_category"
 
 	if s := p.Path(); s != want {
 		t.Errorf("s => %q, want %q", s, want)
